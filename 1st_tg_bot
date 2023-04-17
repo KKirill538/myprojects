@@ -1,0 +1,32 @@
+import telebot
+from telebot import types
+bot = telebot.TeleBot("5426098266:AAGQIWjbUw97t6frftIl2J9yHW3SpbQUwkE")
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+	item1 = types.KeyboardButton("/website")
+	item2 = types.KeyboardButton("/picture")
+	item3 = types.KeyboardButton("/command 3")
+	item4 = types.KeyboardButton("/command 4")
+
+	markup.add(item1, item2, item3, item4)
+
+	bot.send_message(message.chat.id, 'Hi {0.first_name}'.format(message.from_user), reply_markup=markup)
+
+
+@bot.message_handler(commands=["website"])
+def website(message):
+	dec = types.InlineKeyboardMarkup()
+	dec.add(types.InlineKeyboardButton("visit our website", url="https://translate.yandex.kz/?source_lang=en&target_lang=ru"))
+	bot.send_message(message.chat.id, 'visit our website', reply_markup=dec)
+
+
+@bot.message_handler(commands=["picture"])
+def picture(message):
+	bot.send_photo(message.chat.id, 'https://avatars.mds.yandex.net/i?id=dcd1a7ddf859707c8fc051a9f87c755961718b3f-4915723-images-thumbs&n=13&exp=1')
+
+
+#bot.send_photo(chat_id, photo=open('path', 'rb'))
+bot.infinity_polling()
