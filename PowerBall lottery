@@ -1,0 +1,59 @@
+from collections import Counter
+
+
+def main():
+    all_nums, rest_nums, pb = analysis()
+    print("Top 10 the most widespread numbers\n")
+    max_nums(all_nums)
+    print("\nTop 10 the rarest numbers\n")
+    min_nums(all_nums)
+    print("\npb numbers from most frequent to rarest\n")
+    frequency(pb)
+    print("\nrest numbers from most frequent to rarest\n")
+    common_frequency(rest_nums)
+
+
+def analysis():
+    file = open("pb", "r")
+    nums = [i.rstrip("\n").split() for i in file]
+    file.close()
+    all_nums = []
+    rest_nums = []
+    pb_nums = [i[-1] for i in nums]
+    for i in nums:
+        rest_nums.extend((i[0], i[1], i[2], i[3], i[4]))
+        for s in i:
+            all_nums.append(s)
+    return all_nums, rest_nums, pb_nums
+
+
+def max_nums(all_nums):
+    count = Counter(all_nums)
+    count = count.most_common(10)
+    for i, f in enumerate(count):
+        print(f"{i+1}: {f[0]} it appears {f[1]} times")
+
+
+def min_nums(all_nums):
+    count = Counter(all_nums)
+    count = count.most_common()
+    for i, f in enumerate(count[-10:]):
+        print(f"{i + 1}: {f[0]} it appears {f[1]} times")
+
+
+def common_frequency(rest_nums):
+    count = Counter(rest_nums)
+    count = count.most_common()
+    for i, f in enumerate(count):
+        print(f"{i + 1}: {f[0]} it appears {f[1]} times")
+
+
+def frequency(pb):
+    count = Counter(pb)
+    count = count.most_common()
+    for i, f in enumerate(count):
+        print(f"{i + 1}: {f[0]} it appears {f[1]} times")
+
+
+if __name__ == '__main__':
+    main()
